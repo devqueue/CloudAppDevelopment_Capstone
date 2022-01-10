@@ -4,13 +4,58 @@
     <meta charset="UTF-8">
     {% load static %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css"
+          rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
 
 </head>
-    <body>
-    <!--Add review form here -->
-    </body>
+<body>
+<form action="{% url 'djangoapp:add_review' dealer_id %}" method="post">
+    <div class="container">
+        <h1>Add review</h1>
+        <hr>
+        <div>
+            <label for="review"><b>Enter the review content:</b></label>
+            <textarea name="review" id="review" cols="30" rows="10" class="form-control"></textarea>
+        </div>
+
+        <div class="ml-4 my-2">
+            <input class="form-check-input" type="checkbox" name="purchase" id="purchasecheck">
+
+            <label for="purchasecheck"><b>Purchased ? </b> (select purchased car information below if checked)</label>
+        </div>
+
+        <div class="my-3">
+            <label for="car" class="font-weight-bold d-block">Select your car</label>
+            <select name="car" id="car" class="form-control">
+                {% for car in cars %}
+                <option selected value={{car.id}}>{{car.name}}-{{car.make.name}}-{{ car.year|date:"Y" }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="my-3">
+            <label for="purchasedate" class="font-weight-bold">Select Your Purchase date</label><input
+                class="date-own form-control" type="text" name="purchasedate" id="purchasedate">
+        </div>
+        <div>
+            {% csrf_token %}
+            <button class="btn btn-info my-2" type="submit">Add review</button>
+        </div>
+    </div>
+</form>
+
+</body>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('.date-own').datepicker({
+            format: 'mm/dd/yyyy'
+        });
+    })
+</script>
 </html>
