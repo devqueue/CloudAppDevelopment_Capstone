@@ -13,83 +13,42 @@
 
 </head>
 
-<body>
-<!--Add a nav bar here -->
-<nav class="nav">
-
-</nav>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
-            aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="index.html">Car Dealership</a>
-
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-                <a class="nav-link" href="{% url 'djangoapp:about' %}">About Us</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'djangoapp:contact' %}">Contact</a>
-            </li>
-        </ul>
-        {% if user.is_authenticated %}
-        <div class="my-2 my-lg-0">
-            <div class="d-flex">
-                <div class="d-flex justify-content-center" style="color: white;">{{user.username}}</div>
-                <div class="dropdown-content">
-                    <a href="{% url 'djangoapp:logout' %}"><button class="btn btn-outline-success my-2 my-sm-0 ml-2">Logout</button></a>
-                </div>
-            </div>
-        </div>
-        {% else %}
-        <form class="form-inline my-2 my-lg-0" action="{% url 'djangoapp:login' %}" method="post">
-            {% csrf_token %}
-            <input class="form-control mr-sm-2" type="text" name="username" placeholder="Name" aria-label="Name"
-                   required>
-            <input class="form-control mr-sm-2" type="password" name="psw" placeholder="Password" aria-label="Password"
-                   required>
-            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Login</button>
-            <a class="btn btn-outline-success my-2 my-sm-0 ml-2" href="{% url 'djangoapp:registration' %}">Sign Up</a>
-        </form>
-        {% endif %}
+    <body>
+        {% include 'Navbar.html' %}
+    <!--Add a nav bar here -->
+    <div class="container">
+     <table class="table table-striped" id="table" data-filter-control="true" style="margin-top: 3%; margin-bottom: 3%;">
+        <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Dealer Name</th>
+                    <th scope="col">City</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Zip</th>
+                    <th data-field="state" data-filter-control="select">State</th>
+                </tr>
+            </thead>
+        <tbody>
+            {% for dealer in dealerships%}
+                <tr>
+                    <td style="padding: 2%;">{{dealer.id}}</td>
+                    <td style="padding: 2%;"><a href="{% url 'djangoapp:dealer_details' dealer.id %}">{{dealer.full_name}}</a></td>
+                    <td style="padding: 2%;">{{dealer.city}}</td>
+                    <td style="padding: 2%;">{{dealer.address}}</td>
+                    <td style="padding: 2%;">{{dealer.zip}}</td>
+                    <td style="padding: 2%;">{{dealer.st}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!--Add a dealer table here -->
     </div>
-</nav>
 
-<!--Add a dealer table here -->
-<table class="table" id="table" data-filter-control="true" style="margin:10px 10px 10px 10px; width: 99%;">
-    <thead>
-    <tr>
-        <th data-field="id">ID</th>
-        <th data-field="name">Dealer Name</th>
-        <th data-field="city">City</th>
-        <th data-field="address">Address</th>
-        <th data-field="zip">ZIP</th>
-        <th data-field="st" data-filter-control="select">State</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for dealer in dealerships %}
-    <tr>
-        <td>{{dealer.id}}</td>
-        <td><a href="{% url 'djangoapp:dealer_details' dealer.id %}">{{dealer.full_name}}</a></td>
-        <td>{{dealer.city}}</td>
-        <td>{{dealer.address}}</td>
-        <td>{{dealer.zip}}</td>
-        <td>{{dealer.st}}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
-
-</body>
-
-<script>
-  $(function() {
-    $('#table').bootstrapTable()
-  })
-</script>
+    </body>
+    <script>
+        $(function() {
+            $('#table').bootstrapTable()
+        })
+    </script>
 
 </html>

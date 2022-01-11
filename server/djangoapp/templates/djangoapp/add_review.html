@@ -13,7 +13,12 @@
 
 </head>
 <body>
-<form action="{% url 'djangoapp:add_review' dealer_id %}" method="post">
+    {% include 'Navbar.html' %}
+<br>
+{% for dealer in dealers %}
+<form action="/djangoapp/dealer/{{dealer.id}}/add_review/" method="post">
+    {% csrf_token %}
+{% endfor %}
     <div class="container">
         <h1>Add review</h1>
         <hr>
@@ -42,7 +47,6 @@
                 class="date-own form-control" type="text" name="purchasedate" id="purchasedate">
         </div>
         <div>
-            {% csrf_token %}
             <button class="btn btn-info my-2" type="submit">Add review</button>
         </div>
     </div>

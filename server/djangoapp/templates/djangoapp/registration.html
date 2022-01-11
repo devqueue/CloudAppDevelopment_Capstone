@@ -14,9 +14,11 @@
 </head>
 
 <body>
+{% include 'Navbar.html' %}
+<br>
 <form action="{% url 'djangoapp:registration' %}" method="post">
     <div class="container">
-        <h1>Sign Up</h1>
+        <h1 style="text-align: center;">Sign Up</h1>
         <hr>
         <label for="username"><b>User Name</b></label>
         <input class="form-control" type="text" placeholder="Enter User Name: " name="username" required>
